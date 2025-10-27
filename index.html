@@ -56,6 +56,20 @@
             @apply: bg-green-400;
             background-color: #48bb78;
         }
+        /* Style for the details/summary accordion */
+        details > summary {
+            list-style: none; /* Remove default triangle */
+        }
+        details > summary::-webkit-details-marker {
+            display: none; /* Remove default triangle for Safari */
+        }
+        /* Custom open/close text */
+        details[open] > summary .group-open\:hidden {
+            display: none;
+        }
+        details:not([open]) > summary .group-open\:inline {
+            display: none;
+        }
     </style>
     <!-- Preload Inter font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,6 +85,42 @@
             <h1 class="text-4xl font-bold text-center text-white">Covered Call Strategy Analyzer</h1>
             <p class="text-center text-lg text-gray-400 mt-2">Find the best options that match your strategy rules.</p>
         </header>
+
+        <!-- NEW: Strategy Rules Accordion -->
+        <details class="bg-gray-800 rounded-lg shadow-xl mb-8 overflow-hidden">
+            <summary class="p-6 cursor-pointer text-xl font-semibold text-white hover:bg-gray-700/50 flex justify-between items-center">
+                <span>Strategy Rules Overview</span>
+                <span class="text-sm font-normal text-gray-400 group-open:hidden">Click to expand</span>
+                <span class="text-sm font-normal text-gray-400 hidden group-open:inline">Click to collapse</span>
+            </summary>
+            <div class="p-6 border-t border-gray-700">
+                <ul class="list-disc list-inside space-y-3 text-gray-300">
+                    <li>
+                        <strong>Global Rules (Market):</strong>
+                        <ul class="list-disc list-inside ml-6 mt-2 space-y-2">
+                            <li><span class="font-semibold text-yellow-300">VIX > 20:</span> Only trade when the overall market is fearful.</li>
+                            <li><span class="font-semibold text-yellow-300">Overbought:</span> Stock price has spiked (for mean-reversion).</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Trade Rules (Options):</strong>
+                        <ul class="list-disc list-inside ml-6 mt-2 space-y-2">
+                            <li><span class="font-semibold text-green-300">DTE:</span> 21-42 days (3-6 weeks) to expiration.</li>
+                            <li><span class="font-semibold text-green-300">Delta:</span> 0.2 - 0.3 (for a 70-80% probability of expiring worthless).</li>
+                            <li><span class="font-semibold text-green-300">OTM %:</span> 5% - 10% Out-of-the-Money.</li>
+                            <li><span class="font-semibold text-green-300">Return %:</span> ≥ 2% (with a goal of 3-10%).</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Manual Rules (You):</strong>
+                        <ul class="list-disc list-inside ml-6 mt-2 space-y-2">
+                            <li>You must own at least 100 shares per contract.</li>
+                            <li>Reinvest ~50% of premium, save ~50% for taxes.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </details>
 
         <!-- Main Content Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -463,6 +513,7 @@
     </script>
 </body>
 </html>
+
 
 
 
