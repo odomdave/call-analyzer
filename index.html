@@ -321,8 +321,7 @@
                 if (dteMatch) {
                     currentDTE = parseInt(dteMatch[1]);
                     dtePass = currentDTE >= 21 && currentDTE <= 42;
-                    const headerClass = dtePass ? 'pass' : 'fail';
-                    allBody.innerHTML += `<tr class="header-row ${headerClass}"><td colspan="10">Expiring in ${currentDTE} days (${dtePass ? 'Matches Rule' : 'Does Not Match Rule'})</td></tr>`;
+                    // --- BUG FIX: Removed line that added header to allBody here ---
                     tempCallData = {}; 
                     continue;
                 }
@@ -425,6 +424,7 @@
             if (parsedResults.length > 0) {
                 let currentDTE = 0;
                 parsedResults.forEach(r => {
+                    // This is the correct place to add the header
                     if (r.dte !== currentDTE) {
                         currentDTE = r.dte;
                         allBody.innerHTML += `<tr class="header-row ${r.rule_DTE_Met ? 'pass' : 'fail'}"><td colspan="10">Expiring in ${currentDTE} days (${r.rule_DTE_Met ? 'Matches Rule' : 'Does Not Match Rule'})</td></tr>`;
@@ -463,6 +463,7 @@
     </script>
 </body>
 </html>
+
 
 
 
