@@ -13,13 +13,19 @@
         }
         /* Custom styles for tables */
         th, td {
-            @apply px-4 py-3 text-left text-sm whitespace-nowrap;
+            @apply px-2 py-3 text-left text-sm; /* Reduced px */
         }
         th {
-            @apply font-semibold text-gray-300 bg-gray-800 sticky top-0; /* Sticky header for long tables */
+            /* MODIFIED: Added z-10 to ensure header stays on top of scrolling rows */
+            @apply font-semibold text-gray-300 bg-gray-800 sticky top-0 z-10; 
         }
         td {
-            @apply text-gray-100;
+            @apply whitespace-nowrap; /* Keep data cells on one line */
+        }
+        /* Special class for the 'Reason' column to allow wrapping */
+        .wrap-cell {
+            @apply whitespace-normal;
+            min-width: 120px; /* Give it a minimum width to wrap effectively */
         }
         tr.data-row:nth-child(even) {
             @apply bg-gray-700;
@@ -53,7 +59,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="h-full text-gray-200">
-    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+    <!-- MODIFIED: Removed max-w-7xl to allow full width -->
+    <div class="container mx-auto p-4 md:px-8 max-w-full">
 
         <!-- Header -->
         <header class="mb-8">
@@ -138,14 +145,14 @@
                                 <tr>
                                     <th>Strike</th>
                                     <th>DTE</th>
-                                    <th>Premium (Bid)</th>
+                                    <th>Premium</th>
                                     <th>Delta</th>
                                     <th>IV %</th>
                                     <th>OTM %</th>
                                     <th class="text-green-400">Return %</th>
-                                    <th class="text-green-400">Annualized %</th>
+                                    <th class="text-green-400">Ann. %</th>
                                     <th class="text-blue-300">Contracts</th>
-                                    <th class="text-blue-300">Total Premium</th>
+                                    <th class="text-blue-300">Total $</th>
                                 </tr>
                             </thead>
                             <tbody id="idealResultsBody">
@@ -166,20 +173,20 @@
                             <thead>
                                 <tr>
                                     <th>Strike</th>
-                                    <th>DTE (21-42)</th>
-                                    <th>Premium (Bid)</th>
-                                    <th>Delta (0.2-0.3)</th>
-                                    <th>OTM % (5-10%)</th>
-                                    <th class="text-green-400">Return % (≥ 2%)</th>
-                                    <th class="text-green-400">Annualized %</th>
+                                    <th>DTE</th>
+                                    <th>Premium</th>
+                                    <th>Delta</th>
+                                    <th>OTM %</th>
+                                    <th class="text-green-400">Return %</th>
+                                    <th class="text-green-400">Ann. %</th>
                                     <th class="text-blue-300">Contracts</th>
-                                    <th class="text-blue-300">Total Premium</th>
-                                    <th class="text-yellow-300">Reason</th>
+                                    <th class="text-blue-300">Total $</th>
+                                    <th class="text-yellow-300 wrap-cell">Reason</th>
                                 </tr>
                             </thead>
                             <tbody id="allResultsBody">
                                 <tr>
-                                    <td colspan="10" class="text-center text-gray-400 py-6">Enter data and click Analyze to see results.</td>
+                                    <td colspan="11" class="text-center text-gray-400 py-6">Enter data and click Analyze to see results.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -414,6 +421,7 @@
                 parsedResults.forEach(r => {
                     if (r.dte !== currentDTE) {
                         currentDTE = r.dte;
+                        allBody.innerHTML += `<tr class="header-row ${r.rule_DTE_Met ? 'pass' : 'fail'}"><td colspan="10">Expiring in ${currentDTE} days (${r.rule_DTE_Met ? 'Matches Rule' : 'Does Not Match Rule'})</td></tr>`;
                     }
                     
                     const dteCell = r.rule_DTE_Met ? passBg(r.dte) : failBg(r.dte);
@@ -437,7 +445,7 @@
                             <td>${annualizedCell}</td>
                             <td class="text-blue-300 ${maxContracts < 1 ? 'text-opacity-50' : 'font-medium'}">${maxContracts}</td>
                             <td class="text-blue-300 ${maxContracts < 1 ? 'text-opacity-50' : 'font-medium'}">$${totalPremium.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                            <td>${reasonCell}</td>
+                            <td class="wrap-cell">${reasonCell}</td>
                         </tr>
                     `;
                     allBody.innerHTML += row;
@@ -449,5 +457,6 @@
     </script>
 </body>
 </html>
+
 
 
