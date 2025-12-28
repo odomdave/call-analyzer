@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-gray-900">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,63 +12,89 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+
         /* Custom styles for tables */
-        th, td {
-            @apply px-2 py-3 text-left text-sm; /* Reduced px */
-        }
-        th {
-            /* MODIFIED: Sticky properties moved to thead > tr */
-            @apply font-semibold text-gray-300; 
-        }
-        /* MODIFIED: Apply sticky/bg/z-index to the THEAD row */
-        thead tr {
-            @apply sticky top-0 z-10 bg-gray-800;
-        }
+        th,
         td {
-            @apply whitespace-nowrap; /* Keep data cells on one line */
+            @apply px-2 py-3 text-left text-sm;
+            /* Reduced px */
         }
+
+        th {
+            @apply font-semibold text-gray-300;
+            position: sticky;
+            top: 0;
+            background-color: #1f2937;
+            /* bg-gray-800 */
+            z-index: 10;
+        }
+
+        /* Ensure scrollable containers work properly */
+        .scrollable-table {
+            overflow-y: auto;
+        }
+
+        td {
+            @apply whitespace-nowrap;
+            /* Keep data cells on one line */
+        }
+
         /* Special class for the 'Reason' column to allow wrapping */
         .wrap-cell {
             @apply whitespace-normal;
-            min-width: 120px; /* Give it a minimum width to wrap effectively */
+            min-width: 120px;
+            /* Give it a minimum width to wrap effectively */
         }
+
         tr.data-row:nth-child(even) {
             @apply bg-gray-700;
         }
+
         tr.data-row:nth-child(odd) {
             @apply bg-gray-700/50;
         }
+
         tr.header-row {
             @apply bg-gray-600 font-semibold;
         }
+
         tr.header-row.pass {
             @apply bg-green-800/50 text-green-300;
         }
+
         tr.header-row.fail {
             @apply bg-yellow-800/50 text-yellow-300;
         }
+
         /* Toggle Switch Styles */
         .toggle-checkbox:checked {
             @apply: right-0 border-green-400;
             right: 0;
             border-color: #48bb78;
         }
-        .toggle-checkbox:checked + .toggle-label {
+
+        .toggle-checkbox:checked+.toggle-label {
             @apply: bg-green-400;
             background-color: #48bb78;
         }
+
         /* Style for the details/summary accordion */
-        details > summary {
-            list-style: none; /* Remove default triangle */
+        details>summary {
+            list-style: none;
+            /* Remove default triangle */
         }
-        details > summary::-webkit-details-marker {
-            display: none; /* Remove default triangle for Safari */
+
+        details>summary::-webkit-details-marker {
+            display: none;
+            /* Remove default triangle for Safari */
         }
+
         /* Custom open/close text */
-        details[open] > summary .group-open\:hidden {
+        details[open]>summary .group-open\:hidden {
             display: none;
         }
-        details:not([open]) > summary .group-open\:inline {
+
+        details:not([open])>summary .group-open\:inline {
             display: none;
         }
     </style>
@@ -76,6 +103,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body class="h-full text-gray-200">
     <!-- MODIFIED: Removed max-w-7xl to allow full width -->
     <div class="container mx-auto p-4 md:px-8 max-w-full">
@@ -88,7 +116,8 @@
 
         <!-- NEW: Strategy Rules Accordion -->
         <details class="bg-gray-800 rounded-lg shadow-xl mb-8 overflow-hidden">
-            <summary class="p-6 cursor-pointer text-xl font-semibold text-white hover:bg-gray-700/50 flex justify-between items-center">
+            <summary
+                class="p-6 cursor-pointer text-xl font-semibold text-white hover:bg-gray-700/50 flex justify-between items-center">
                 <span>Strategy Rules Overview</span>
                 <span class="text-sm font-normal text-gray-400 group-open:hidden">Click to expand</span>
                 <span class="text-sm font-normal text-gray-400 hidden group-open:inline">Click to collapse</span>
@@ -98,17 +127,22 @@
                     <li>
                         <strong>Global Rules (Market):</strong>
                         <ul class="list-disc list-inside ml-6 mt-2 space-y-2">
-                            <li><span class="font-semibold text-yellow-300">VIX > 20:</span> Only trade when the overall market is fearful.</li>
-                            <li><span class="font-semibold text-yellow-300">Overbought:</span> Stock price has spiked (for mean-reversion).</li>
+                            <li><span class="font-semibold text-yellow-300">VIX > 20:</span> Only trade when the overall
+                                market is fearful.</li>
+                            <li><span class="font-semibold text-yellow-300">Overbought:</span> Stock price has spiked
+                                (for mean-reversion).</li>
                         </ul>
                     </li>
                     <li>
                         <strong>Trade Rules (Options):</strong>
                         <ul class="list-disc list-inside ml-6 mt-2 space-y-2">
-                            <li><span class="font-semibold text-green-300">DTE:</span> 21-42 days (3-6 weeks) to expiration.</li>
-                            <li><span class="font-semibold text-green-300">Delta:</span> 0.2 - 0.3 (for a 70-80% probability of expiring worthless).</li>
+                            <li><span class="font-semibold text-green-300">DTE:</span> 21-42 days (3-6 weeks) to
+                                expiration.</li>
+                            <li><span class="font-semibold text-green-300">Delta:</span> 0.2 - 0.3 (for a 70-80%
+                                probability of expiring worthless).</li>
                             <li><span class="font-semibold text-green-300">OTM %:</span> 5% - 10% Out-of-the-Money.</li>
-                            <li><span class="font-semibold text-green-300">Return %:</span> ≥ 2% (with a goal of 3-10%).</li>
+                            <li><span class="font-semibold text-green-300">Return %:</span> ≥ 2% (with a goal of 3-10%).
+                            </li>
                         </ul>
                     </li>
                     <li>
@@ -127,46 +161,115 @@
 
             <!-- Left Column: Inputs & Instructions -->
             <div class="lg:col-span-1 space-y-6">
-                
+
                 <!-- Inputs Card -->
                 <div class="bg-gray-800 p-6 rounded-lg shadow-xl">
                     <h2 class="text-2xl font-semibold mb-4 text-white">1. Enter Market Conditions</h2>
+
+                    <!-- NEW: Main Strategy Switcher -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Analysis Goal</label>
+                        <select id="mainStrategy"
+                            class="w-full bg-gray-700 border-gray-600 text-white rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="income">Income: Sell Covered Calls (Short Term)</option>
+                            <option value="growth">Growth: Buy Synthetic Longs (LEAPS)</option>
+                        </select>
+                    </div>
+
+                    <!-- Income Sub-Options -->
+                    <div id="incomeOptions" class="mb-6 p-3 bg-gray-700/50 rounded-lg border border-gray-600">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Income Aggressiveness</label>
+                        <div class="flex gap-4">
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="radio" name="strategyMode" id="stratConservative" value="conservative"
+                                    class="form-radio text-blue-500 bg-gray-700 border-gray-500" checked>
+                                <span class="ml-2 text-sm text-gray-200">Conservative (21-42 Days)</span>
+                            </label>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="radio" name="strategyMode" id="stratAggressive" value="aggressive"
+                                    class="form-radio text-yellow-500 bg-gray-700 border-gray-500">
+                                <span class="ml-2 text-sm text-gray-200">Aggressive (7-35 Days)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Growth Sub-Options (Hidden by default) -->
+                    <div id="growthOptions"
+                        class="mb-6 p-3 bg-indigo-900/30 rounded-lg border border-indigo-700 hidden">
+                        <label class="block text-sm font-medium text-indigo-300 mb-2">LEAPS Configuration</label>
+                        <p class="text-xs text-gray-400">Looking for Deep ITM Calls (Delta > 0.70) with DTE > 200 days
+                            to act as stock replacement.</p>
+                    </div>
+
                     <div class="space-y-4">
                         <div>
-                            <label for="stockPrice" class="block text-sm font-medium text-gray-300">Current Stock Price ($)</label>
-                            <input type="number" id="stockPrice" step="0.01" class="mt-1 block w-full bg-gray-700 border-gray-600 text-white rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 450.25">
+                            <label for="stockPrice" class="block text-sm font-medium text-gray-300">Current Stock Price
+                                ($)</label>
+                            <input type="number" id="stockPrice" step="0.01"
+                                class="mt-1 block w-full bg-gray-700 border-gray-600 text-white rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="e.g., 450.25">
                         </div>
                         <div>
                             <label for="vix" class="block text-sm font-medium text-gray-300">Current VIX</label>
-                            <input type="number" id="vix" step="0.01" class="mt-1 block w-full bg-gray-700 border-gray-600 text-white rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 21.5">
+                            <input type="number" id="vix" step="0.01"
+                                class="mt-1 block w-full bg-gray-700 border-gray-600 text-white rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="e.g., 21.5">
                         </div>
                         <div>
-                            <label for="sharesOwned" class="block text-sm font-medium text-gray-300">Shares Owned</label>
-                            <input type="number" id="sharesOwned" step="1" class="mt-1 block w-full bg-gray-700 border-gray-600 text-white rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 500">
+                            <label for="sharesOwned" class="block text-sm font-medium text-gray-300">Shares
+                                Owned</label>
+                            <input type="number" id="sharesOwned" step="1"
+                                class="mt-1 block w-full bg-gray-700 border-gray-600 text-white rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="e.g., 500">
                         </div>
                         <!-- Overbought Toggle -->
                         <div class="flex items-center justify-between pt-2">
                             <span class="text-sm font-medium text-gray-300">Stock is Overbought? (Mean-Reversion)</span>
-                            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                                <input type="checkbox" name="overboughtToggle" id="overboughtToggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
-                                <label for="overboughtToggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer"></label>
+                            <div
+                                class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" name="overboughtToggle" id="overboughtToggle"
+                                    class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" />
+                                <label for="overboughtToggle"
+                                    class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-600 cursor-pointer"></label>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- NEW: Auto-Import Controls -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-xl border border-gray-700">
+                    <h2 class="text-xl font-semibold mb-3 text-white flex items-center gap-2">
+                        <span>🚀</span> Fidelity Integration
+                    </h2>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button id="launchButton"
+                            class="bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded transition">
+                            1. Launch Browser
+                        </button>
+                        <button id="importButton"
+                            class="bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded transition">
+                            2. Auto-Import
+                        </button>
+                    </div>
+                    <p id="importStatus" class="mt-3 text-sm text-gray-400 text-center"></p>
+                </div>
+
                 <!-- Paste Data Card -->
                 <div class="bg-gray-800 p-6 rounded-lg shadow-xl">
                     <h2 class="text-2xl font-semibold mb-4 text-white">2. Paste Option Chain</h2>
-                    <textarea id="chainData" rows="15" class="mt-1 block w-full bg-gray-700 border-gray-600 text-white rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 font-mono text-xs" placeholder="Paste your *entire* option chain data here...
+                    <textarea id="chainData" rows="15"
+                        class="mt-1 block w-full bg-gray-700 border-gray-600 text-white rounded-md shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 font-mono text-xs"
+                        placeholder="Paste your *entire* option chain data here...
 "></textarea>
                     <p class="mt-3 text-xs text-gray-400">
-                        <strong>Important:</strong> Paste the full chain, including the expiration date headers (e.g., "CALLS Nov 07 '25 (11 days) PUTS"). The app will auto-detect DTE.
+                        <strong>Important:</strong> Paste the full chain, including the expiration date headers (e.g.,
+                        "CALLS Nov 07 '25 (11 days) PUTS"). The app will auto-detect DTE.
                     </p>
                 </div>
 
                 <!-- Analyze Button -->
-                <button id="analyzeButton" class="w-full bg-blue-600 text-white font-bold py-4 px-6 rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300 ease-in-out text-lg">
+                <button id="analyzeButton"
+                    class="w-full bg-blue-600 text-white font-bold py-4 px-6 rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300 ease-in-out text-lg">
                     Analyze Options
                 </button>
             </div>
@@ -181,9 +284,11 @@
                         <!-- Warnings will be inserted here -->
                     </div>
                     <!-- 50/50 Rule Reminder -->
-                    <div id="strategyReminder" class="mt-4 p-4 rounded-md bg-gray-700 text-gray-300" style="display: none;">
+                    <div id="strategyReminder" class="mt-4 p-4 rounded-md bg-gray-700 text-gray-300"
+                        style="display: none;">
                         <h4 class="font-semibold text-gray-100">Post-Trade Reminder:</h4>
-                        <p class="text-sm">Don't forget your rule: Reinvest ~50% of premium profits; save the rest for taxes (short-term capital gains).</p>
+                        <p class="text-sm">Don't forget your rule: Reinvest ~50% of premium profits; save the rest for
+                            taxes (short-term capital gains).</p>
                     </div>
                 </div>
 
@@ -192,15 +297,16 @@
                     <h2 class="text-2xl font-semibold text-white p-6">
                         <span class="text-green-400">★</span> Ideal Candidates
                     </h2>
-                    <p class="px-6 pb-4 text-gray-400 -mt-4">These options meet <strong>ALL</strong> strategy rules (VIX, Overbought, DTE, Delta, OTM%, Premium%).</p>
-                    <div class="overflow-auto max-h-[400px]">
+                    <p class="px-6 pb-4 text-gray-400 -mt-4">These options meet <strong>ALL</strong> strategy rules
+                        (VIX, Overbought, DTE, Delta, OTM%, Premium%).</p>
+                    <div class="scrollable-table max-h-[400px]">
                         <table class="w-full">
                             <thead>
-                                <!-- MODIFIED: Removed sticky classes from TH, added to TR -->
                                 <tr>
                                     <th>Strike</th>
                                     <th>DTE</th>
                                     <th>Premium</th>
+                                    <th>Breakeven</th> <!-- NEW -->
                                     <th>Delta</th>
                                     <th>IV %</th>
                                     <th>OTM %</th>
@@ -212,7 +318,70 @@
                             </thead>
                             <tbody id="idealResultsBody">
                                 <tr>
-                                    <td colspan="10" class="text-center text-gray-400 py-6">Enter data and click Analyze to see results.</td>
+                                    <td colspan="11" class="text-center text-gray-400 py-6">Enter data and click Analyze
+                                        to see results.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- NEW: Near Misses Card -->
+                <div class="bg-gray-800 rounded-lg shadow-xl border border-yellow-700/50">
+                    <h2 class="text-2xl font-semibold text-white p-6">
+                        <span class="text-yellow-400">⚠</span> Near Misses
+                    </h2>
+                    <p class="px-6 pb-4 text-gray-400 -mt-4">Options that failed exactly <strong>one</strong> trade rule
+                        (DTE, Delta, OTM, or Return). Use judgment.</p>
+                    <div class="scrollable-table max-h-[400px]">
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    <th>Strike</th>
+                                    <th>DTE</th>
+                                    <th>Premium</th>
+                                    <th>Breakeven</th>
+                                    <th>Delta</th>
+                                    <th>OTM %</th>
+                                    <th class="text-green-400">Return %</th>
+                                    <th class="text-green-400">Ann. %</th>
+                                    <th class="text-yellow-300 wrap-cell">Failed Rule</th>
+                                </tr>
+                            </thead>
+                            <tbody id="nearMissResultsBody">
+                                <tr>
+                                    <td colspan="9" class="text-center text-gray-400 py-6">No near misses found.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- NEW: Near Misses Card -->
+                <div class="bg-gray-800 rounded-lg shadow-xl border border-yellow-700/50 mb-8">
+                    <h2 class="text-2xl font-semibold text-white p-6">
+                        <span class="text-yellow-400">⚠</span> Near Misses
+                    </h2>
+                    <p class="px-6 pb-4 text-gray-400 -mt-4">Options that failed exactly <strong>one</strong> trade rule
+                        (DTE, Delta, OTM, or Return). Use judgment.</p>
+                    <div class="overflow-auto max-h-[400px]">
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    <th>Strike</th>
+                                    <th>DTE</th>
+                                    <th>Premium</th>
+                                    <th>Breakeven</th>
+                                    <th>Delta</th>
+                                    <th>OTM %</th>
+                                    <th class="text-green-400">Return %</th>
+                                    <th class="text-green-400">Ann. %</th>
+                                    <th class="text-yellow-300 wrap-cell">Failed Rule</th>
+                                </tr>
+                            </thead>
+                            <tbody id="nearMissResultsBody">
+                                <tr>
+                                    <td colspan="9" class="text-center text-gray-400 py-6">No near misses found.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -222,16 +391,18 @@
                 <!-- All Parsed Options Card -->
                 <div class="bg-gray-800 rounded-lg shadow-xl">
                     <h2 class="text-2xl font-semibold text-white p-6">All Parsed Options (Analysis)</h2>
-                    <p class="px-6 pb-4 text-gray-400 -mt-4">A detailed breakdown of all parsed options against your rules.</p>
-                    <div class="overflow-auto max-h-[600px]">
+                    <p class="px-6 pb-4 text-gray-400 -mt-4">A detailed breakdown of all parsed options against your
+                        rules.</p>
+                    <div class="scrollable-table max-h-[600px]">
                         <table class="w-full">
                             <thead>
-                                <!-- MODIFIED: Removed sticky classes from TH, added to TR -->
                                 <tr>
                                     <th>Strike</th>
                                     <th>DTE</th>
                                     <th>Premium</th>
+                                    <th>Breakeven</th> <!-- NEW -->
                                     <th>Delta</th>
+                                    <th>IV %</th>
                                     <th>OTM %</th>
                                     <th class="text-green-400">Return %</th>
                                     <th class="text-green-400">Ann. %</th>
@@ -242,7 +413,8 @@
                             </thead>
                             <tbody id="allResultsBody">
                                 <tr>
-                                    <td colspan="11" class="text-center text-gray-400 py-6">Enter data and click Analyze to see results.</td>
+                                    <td colspan="12" class="text-center text-gray-400 py-6">Enter data and click Analyze
+                                        to see results.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -254,6 +426,84 @@
     </div>
 
     <script>
+        // --- Strategy UI Toggling ---
+        document.getElementById('mainStrategy').addEventListener('change', (e) => {
+            const mode = e.target.value;
+            if (mode === 'income') {
+                document.getElementById('incomeOptions').classList.remove('hidden');
+                document.getElementById('growthOptions').classList.add('hidden');
+            } else {
+                document.getElementById('incomeOptions').classList.add('hidden');
+                document.getElementById('growthOptions').classList.remove('hidden');
+            }
+            analyzeData();
+        });
+
+        // --- Integration Logic ---
+        document.getElementById('launchButton').addEventListener('click', async () => {
+            const status = document.getElementById('importStatus');
+            status.textContent = "Launching browser...";
+            status.className = "mt-3 text-sm text-yellow-400 text-center";
+
+            try {
+                // Use absolute URL to allow running from file://
+                const response = await fetch('http://localhost:5000/api/launch', { method: 'POST' });
+                const result = await response.json();
+                if (result.success) {
+                    status.textContent = "Browser launched! Please log in.";
+                    status.className = "mt-3 text-sm text-green-400 text-center";
+                } else {
+                    status.textContent = "Error launching browser.";
+                    status.className = "mt-3 text-sm text-red-400 text-center";
+                }
+            } catch (e) {
+                console.error("Launch Error:", e);
+                status.textContent = "Server error. Is server.py running?";
+                status.className = "mt-3 text-sm text-red-400 text-center";
+            }
+        });
+
+        document.getElementById('importButton').addEventListener('click', async () => {
+            const status = document.getElementById('importStatus');
+            const btn = document.getElementById('importButton');
+
+            status.textContent = "Importing data... (Check browser window)";
+            status.className = "mt-3 text-sm text-yellow-400 text-center";
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+
+            try {
+                // Use absolute URL to allow running from file://
+                const response = await fetch('http://localhost:5000/api/scrape', { method: 'POST' });
+                const result = await response.json();
+
+                if (result.success) {
+                    document.getElementById('chainData').value = result.data;
+
+                    if (result.price) {
+                        document.getElementById('stockPrice').value = result.price;
+                        // Optional: Highlight that price was updated
+                        document.getElementById('stockPrice').classList.add('ring-2', 'ring-green-500');
+                        setTimeout(() => document.getElementById('stockPrice').classList.remove('ring-2', 'ring-green-500'), 2000);
+                    }
+
+                    analyzeData(); // Auto-analyze
+                    status.textContent = "Data imported successfully!";
+                    status.className = "mt-3 text-sm text-green-400 text-center";
+                } else {
+                    status.textContent = "Import failed: " + result.error;
+                    status.className = "mt-3 text-sm text-red-400 text-center";
+                }
+            } catch (e) {
+                console.error("Import Error:", e);
+                status.textContent = "Script Error: " + e.message;
+                status.className = "mt-3 text-sm text-red-400 text-center";
+            } finally {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50');
+            }
+        });
+
         document.getElementById('analyzeButton').addEventListener('click', analyzeData);
 
         // Helper functions for cell styling
@@ -262,15 +512,16 @@
         const passBg = (value) => `<span class="bg-green-500/20 text-green-300 px-2 py-1 rounded-md">${value}</span>`;
         const failBg = (value) => `<span class="bg-red-500/20 text-red-300 px-2 py-1 rounded-md">${value}</span>`;
 
-        // Regex to find DTE headers
-        const dteRegex = /CALLS\s+.*\s+\((\d+)\s+days?\)/i;
-        // Regex for Call Price Data: 18.16	+9.16	18.10	18.30
-        const callDataRegex = /^(\d+\.\d{2})\s+([+-]\d+\.\d{2})\s+(\d+\.\d{2})\s+(\d+\.\d{2})$/;
-        // Regex for IV/Delta: 57.38 % 0.692
-        const ivDeltaRegex = /^(\d+\.\d{2})\s+%\s+([0-9.-]+)$/;
-        // Regex for Strike: 440 or 442.5
-        const strikeRegex = /^(\d+(\.\d+)?)$/;
-
+        // NEW: Regex patterns for tab-separated multi-line format
+        const dteHeaderRegex = /CALLS[\s\t]+(.*?)[\s\t]+\((\d+)\s+days?\)[\s\t]+PUTS/i;
+        // Call price line: Last Change Bid Ask (tab separated, trailing tab)
+        const callPriceRegex = /^(\d+\.\d{2})[\s\t]+([+-]?\d+\.\d{2})[\s\t]+(\d+\.\d{2})[\s\t]+(\d+\.\d{2})[\s\t]*$/;
+        // IV/Delta line: tab + IV% + tab + Delta + tab
+        const ivDeltaRegex = /^[\s\t]+(\d+\.\d{2})\s+%[\s\t]+([0-9.-]+)[\s\t]*$/;
+        // Strike line: tab + strike number + tab
+        const strikeRegex = /^[\s\t]+(\d+(?:\.\d+)?)[\s\t]*$/;
+        // Number with optional commas (for volume/open int)
+        const numberRegex = /^(\d{1,3}(?:,\d{3})*|\d+)$/;
 
         // --- NEW: Helper function for failure reasons ---
         function getFailureReasons(r) {
@@ -281,7 +532,7 @@
             if (!r.rule_Premium) reasons.push("Return %");
             if (!r.rule_VIX_Met) reasons.push("VIX");
             if (!r.rule_Overbought_Met) reasons.push("Overbought");
-            
+
             if (reasons.length === 0) return passCell('Pass');
             return failCell(reasons.join(', '));
         }
@@ -291,23 +542,48 @@
             const stockPrice = parseFloat(document.getElementById('stockPrice').value);
             const vix = parseFloat(document.getElementById('vix').value);
             const sharesOwned = parseInt(document.getElementById('sharesOwned').value);
-            const isOverbought = document.getElementById('overboughtToggle').checked; // --- NEW
+            const isOverbought = document.getElementById('overboughtToggle').checked;
             const chainData = document.getElementById('chainData').value;
+
+            // Get Strategy Modes
+            const mainStrategy = document.getElementById('mainStrategy').value; // 'income' or 'growth'
+            const isAggressive = document.getElementById('stratAggressive').checked;
+
+            // Define Thresholds
+            let TARGET_MIN_DTE, TARGET_MAX_DTE, TARGET_MIN_DELTA, TARGET_MAX_DELTA, TARGET_MIN_PREMIUM;
+
+            if (mainStrategy === 'growth') {
+                // LEAPS / Synthetic Long Logic
+                TARGET_MIN_DTE = 200;
+                TARGET_MAX_DTE = 1200; // Far future
+                TARGET_MIN_DELTA = 0.65; // Deep ITM
+                TARGET_MAX_DELTA = 1.00;
+                TARGET_MIN_PREMIUM = 0; // Irrelevant for buying
+            } else {
+                // Income Logic
+                TARGET_MIN_DTE = isAggressive ? 7 : 21;
+                TARGET_MAX_DTE = isAggressive ? 35 : 42;
+                TARGET_MIN_DELTA = isAggressive ? 0.15 : 0.20;
+                TARGET_MAX_DELTA = isAggressive ? 0.35 : 0.30;
+                TARGET_MIN_PREMIUM = isAggressive ? 0.005 : 0.02; // 0.5% for weekly, 2% for monthly
+            }
 
             // 2. Clear previous results
             const idealBody = document.getElementById('idealResultsBody');
+            const nearMissBody = document.getElementById('nearMissResultsBody');
             const allBody = document.getElementById('allResultsBody');
             const globalDiv = document.getElementById('globalAnalysis');
             const globalWarnings = document.getElementById('globalWarnings');
             const strategyReminder = document.getElementById('strategyReminder');
-            
+
             idealBody.innerHTML = '';
+            nearMissBody.innerHTML = '';
             allBody.innerHTML = '';
             globalWarnings.innerHTML = '';
             globalDiv.style.display = 'none';
-            strategyReminder.style.display = 'none'; // Hide reminder
+            strategyReminder.style.display = 'none';
 
-            // 3. Input Validation (includes sharesOwned check)
+            // 3. Input Validation
             let hasError = false;
             if (isNaN(stockPrice) || stockPrice <= 0) {
                 globalWarnings.innerHTML += `<div class="p-4 rounded-md bg-red-800 text-red-100"><strong>Error:</strong> Please enter a valid Stock Price.</div>`;
@@ -321,16 +597,16 @@
                 globalWarnings.innerHTML += `<div class="p-4 rounded-md bg-red-800 text-red-100"><strong>Error:</strong> Please enter a valid number for Shares Owned.</div>`;
                 hasError = true;
             }
-            if(hasError) {
+            if (hasError) {
                 globalDiv.style.display = 'block';
                 return;
             }
-            
+
             const maxContracts = Math.floor(sharesOwned / 100);
 
             // 4. Global Strategy Check
             const rule_VIX_Met = vix >= 20;
-            const rule_Overbought_Met = isOverbought; // --- NEW
+            const rule_Overbought_Met = isOverbought;
 
             if (rule_VIX_Met) {
                 globalWarnings.innerHTML += `<div class="p-4 rounded-md bg-green-800 text-green-100"><strong>VIX Check:</strong> ${vix} (≥ 20). Global condition met.</div>`;
@@ -338,7 +614,6 @@
                 globalWarnings.innerHTML += `<div class="p-4 rounded-md bg-yellow-800 text-yellow-100"><strong>VIX Warning:</strong> VIX is ${vix} (below 20). Rule failed.</div>`;
             }
 
-            // --- NEW: Overbought Check ---
             if (rule_Overbought_Met) {
                 globalWarnings.innerHTML += `<div class="p-4 rounded-md bg-green-800 text-green-100"><strong>Overbought Check:</strong> Stock is overbought. Global condition met.</div>`;
             } else {
@@ -351,86 +626,145 @@
                 globalWarnings.innerHTML += `<div class="p-4 rounded-md bg-blue-800 text-blue-100"><strong>Share Info:</strong> With ${sharesOwned} shares, you can sell up to ${maxContracts} contract(s).</div>`;
             }
             globalDiv.style.display = 'block';
-            strategyReminder.style.display = 'block'; // Show reminder
+            strategyReminder.style.display = 'block';
 
-            // 5. Parse Option Chain
+            // 5. NEW PARSER: State Machine for Multi-Line Format
             const lines = chainData.split('\n');
             const parsedResults = [];
             let currentDTE = 0;
+            let currentExpDate = "";
             let dtePass = false;
-            let tempCallData = {}; 
 
-            for (const line of lines) {
-                const trimmedLine = line.trim();
+            // State machine variables
+            let state = 'SEEKING_HEADER';
+            let tempCallBid = null;
+            let tempCallIV = null;
+            let tempCallDelta = null;
 
-                if (!trimmedLine || trimmedLine.includes("Open or Close Menu.") || trimmedLine.includes("Last	Change	Bid	Ask")) {
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const trimmed = line.trim();
+
+                // Skip empty lines and table headers
+                if (!trimmed || trimmed.startsWith('Last') || trimmed.startsWith('Action')) {
                     continue;
                 }
 
-                const dteMatch = trimmedLine.match(dteRegex);
-                if (dteMatch) {
-                    currentDTE = parseInt(dteMatch[1]);
-                    dtePass = currentDTE >= 21 && currentDTE <= 42;
-                    // --- BUG FIX: Removed line that added header to allBody here ---
-                    tempCallData = {}; 
+                // Check for expiration header (can happen in any state)
+                const headerMatch = trimmed.match(dteHeaderRegex);
+                if (headerMatch) {
+                    currentExpDate = headerMatch[1].trim();
+                    currentDTE = parseInt(headerMatch[2]);
+                    dtePass = currentDTE >= TARGET_MIN_DTE && currentDTE <= TARGET_MAX_DTE;
+                    state = 'SEEKING_CALL_PRICE';
+                    tempCallBid = null;
+                    tempCallIV = null;
+                    tempCallDelta = null;
+                    console.log(`Found expiration: ${currentExpDate} (${currentDTE} days)`);
                     continue;
                 }
 
-                if (currentDTE === 0) continue; 
+                // If we haven't found a header yet, skip
+                if (currentDTE === 0) continue;
 
-                const priceMatch = trimmedLine.match(callDataRegex);
-                if (priceMatch) {
-                    tempCallData = {}; 
-                    tempCallData.bid = parseFloat(priceMatch[3]); 
-                    continue; 
+                // State machine
+                if (state === 'SEEKING_CALL_PRICE') {
+                    const priceMatch = trimmed.match(callPriceRegex);
+                    if (priceMatch) {
+                        tempCallBid = parseFloat(priceMatch[3]); // Index 3 is Bid
+                        state = 'SEEKING_CALL_IV';
+                        console.log(`  Found call price, bid: ${tempCallBid}`);
+                        continue;
+                    }
                 }
 
-                const ivDeltaMatch = trimmedLine.match(ivDeltaRegex);
-                if (ivDeltaMatch && typeof tempCallData.bid !== 'undefined') { 
-                    tempCallData.iv = parseFloat(ivDeltaMatch[1]);
-                    tempCallData.delta = parseFloat(ivDeltaMatch[2]);
-                    continue; 
+                if (state === 'SEEKING_CALL_IV') {
+                    // Test ORIGINAL line (with tabs) not trimmed
+                    const ivDeltaMatch = line.match(ivDeltaRegex);
+                    if (ivDeltaMatch) {
+                        tempCallIV = parseFloat(ivDeltaMatch[1]);
+                        tempCallDelta = parseFloat(ivDeltaMatch[2]);
+                        state = 'SEEKING_STRIKE';
+                        console.log(`  Found IV/Delta: ${tempCallIV}%, ${tempCallDelta}`);
+                        continue;
+                    }
                 }
 
-                const strikeMatch = trimmedLine.match(strikeRegex);
-                if (strikeMatch && typeof tempCallData.bid !== 'undefined' && typeof tempCallData.iv !== 'undefined' && typeof tempCallData.delta !== 'undefined') {
-                    tempCallData.strike = parseFloat(strikeMatch[1]);
-                    
-                    const otmPercent = (tempCallData.strike - stockPrice) / stockPrice;
-                    const premiumReturn = tempCallData.bid / stockPrice;
-                    const annualizedReturn = premiumReturn * (365 / currentDTE); // --- NEW
+                if (state === 'SEEKING_STRIKE') {
+                    // Test ORIGINAL line (with tabs) not trimmed
+                    const strikeMatch = line.match(strikeRegex);
+                    if (strikeMatch && tempCallBid !== null && tempCallDelta !== null) {
+                        const strike = parseFloat(strikeMatch[1]);
+                        console.log(`  Found strike: ${strike}`);
 
-                    const rule_DTE_Met = dtePass;
-                    const rule_OTM = otmPercent >= 0.05 && otmPercent <= 0.10;
-                    const rule_Delta = tempCallData.delta >= 0.2 && tempCallData.delta <= 0.3;
-                    const rule_Premium = premiumReturn >= 0.02;
+                        // Calculate metrics
+                        const otmPercent = (strike - stockPrice) / stockPrice;
+                        const premiumReturn = tempCallBid / stockPrice;
+                        const annualizedReturn = premiumReturn * (365 / currentDTE);
+                        const breakeven = stockPrice - tempCallBid;
 
-                    // --- UPDATED: isIdeal check now includes Overbought rule ---
-                    const isIdeal = rule_OTM && rule_Delta && rule_Premium && rule_VIX_Met && rule_DTE_Met && rule_Overbought_Met;
-                    const meetsGoalPremium = premiumReturn >= 0.03 && premiumReturn <= 0.10;
+                        const rule_DTE_Met = dtePass;
+                        let rule_OTM, rule_Premium;
 
-                    parsedResults.push({
-                        ...tempCallData,
-                        otmPercent,
-                        premiumReturn,
-                        annualizedReturn, // --- NEW
-                        dte: currentDTE,
-                        rule_DTE_Met,
-                        rule_OTM,
-                        rule_Delta,
-                        rule_Premium,
-                        rule_VIX_Met, // Pass global rules down
-                        rule_Overbought_Met, // Pass global rules down
-                        isIdeal,
-                        meetsGoalPremium
-                    });
-                    
-                    tempCallData = {}; 
+                        if (mainStrategy === 'growth') {
+                            rule_OTM = true;
+                            rule_Premium = true;
+                        } else {
+                            rule_OTM = otmPercent >= 0.05 && otmPercent <= 0.10;
+                            rule_Premium = premiumReturn >= TARGET_MIN_PREMIUM;
+                        }
+
+                        const rule_Delta = tempCallDelta >= TARGET_MIN_DELTA && tempCallDelta <= TARGET_MAX_DELTA;
+                        const isIdeal = rule_OTM && rule_Delta && rule_Premium && rule_VIX_Met && rule_DTE_Met && rule_Overbought_Met;
+                        const meetsGoalPremium = mainStrategy === 'income' && premiumReturn >= 0.03 && premiumReturn <= 0.10;
+
+                        // Near Miss Logic
+                        let failCount = 0;
+                        if (!rule_DTE_Met) failCount++;
+                        if (mainStrategy === 'income') {
+                            if (!rule_OTM) failCount++;
+                            if (!rule_Premium) failCount++;
+                        }
+                        if (!rule_Delta) failCount++;
+                        const isNearMiss = (failCount === 1);
+
+                        parsedResults.push({
+                            strike: strike,
+                            bid: tempCallBid,
+                            delta: tempCallDelta,
+                            iv: tempCallIV || 0,
+                            otmPercent,
+                            premiumReturn,
+                            annualizedReturn,
+                            breakeven,
+                            dte: currentDTE,
+                            expDate: currentExpDate,
+                            rule_DTE_Met,
+                            rule_OTM,
+                            rule_Delta,
+                            rule_Premium,
+                            rule_VIX_Met,
+                            rule_Overbought_Met,
+                            isIdeal,
+                            isNearMiss,
+                            meetsGoalPremium
+                        });
+
+                        // Reset for next option (look for next call price)
+                        state = 'SEEKING_CALL_PRICE';
+                        tempCallBid = null;
+                        tempCallIV = null;
+                        tempCallDelta = null;
+                        continue;
+                    }
                 }
             } // End of line loop
 
+            console.log(`Parsed ${parsedResults.length} options total`);
+
             // 6. Render Results
             const idealCandidates = parsedResults.filter(r => r.isIdeal);
+            const nearMissCandidates = parsedResults.filter(r => r.isNearMiss && !r.isIdeal);
 
             // --- Render Ideal Candidates Table ---
             if (idealCandidates.length > 0 && maxContracts > 0) {
@@ -441,14 +775,15 @@
                     if (r.meetsGoalPremium) {
                         returnCell = `<span class="bg-green-500 text-gray-900 font-bold px-2 py-1 rounded-md">${(r.premiumReturn * 100).toFixed(2) + '%'} (Goal)</span>`;
                     }
-                    const totalPremium = (maxContracts * r.bid * 100); 
-                    const annualizedCell = passCell((r.annualizedReturn * 100).toFixed(2) + '%'); // --- NEW
+                    const totalPremium = (maxContracts * r.bid * 100);
+                    const annualizedCell = passCell((r.annualizedReturn * 100).toFixed(2) + '%');
 
                     const row = `
                         <tr class="data-row">
                             <td class="font-medium">${r.strike.toFixed(2)}</td>
                             <td>${r.dte}</td>
                             <td>${r.bid.toFixed(2)}</td>
+                            <td class="text-gray-300 font-mono">${r.breakeven.toFixed(2)}</td> <!-- NEW -->
                             <td>${r.delta.toFixed(3)}</td>
                             <td>${r.iv.toFixed(2)}%</td>
                             <td>${(r.otmPercent * 100).toFixed(2)}%</td>
@@ -467,35 +802,68 @@
                 } else if (!rule_Overbought_Met || !rule_VIX_Met) {
                     message = "Check Global Strategy warnings. VIX and/or Overbought rules failed.";
                 }
-                idealBody.innerHTML = `<tr><td colspan="10" class="text-center text-gray-400 py-6">${message}</td></tr>`;
+                idealBody.innerHTML = `<tr><td colspan="11" class="text-center text-gray-400 py-6">${message}</td></tr>`;
+            }
+
+            // --- NEW: Render Near Miss Candidates Table ---
+            if (nearMissCandidates.length > 0) {
+                nearMissCandidates.sort((a, b) => b.annualizedReturn - a.annualizedReturn);
+
+                nearMissCandidates.forEach(r => {
+                    // Highlight the specific failure
+                    const dteCell = r.rule_DTE_Met ? r.dte : failBg(r.dte);
+                    const deltaCell = r.rule_Delta ? r.delta.toFixed(3) : failBg(r.delta.toFixed(3));
+                    const otmCell = r.rule_OTM ? (r.otmPercent * 100).toFixed(2) + '%' : failBg((r.otmPercent * 100).toFixed(2) + '%');
+                    const premiumCell = r.rule_Premium ? passCell((r.premiumReturn * 100).toFixed(2) + '%') : failBg((r.premiumReturn * 100).toFixed(2) + '%');
+
+                    const reasonCell = getFailureReasons(r);
+
+                    const row = `
+                        <tr class="data-row">
+                            <td class="font-medium">${r.strike.toFixed(2)}</td>
+                            <td>${dteCell}</td>
+                            <td>${r.bid.toFixed(2)}</td>
+                            <td class="text-gray-300 font-mono">${r.breakeven.toFixed(2)}</td>
+                            <td>${deltaCell}</td>
+                            <td>${otmCell}</td>
+                            <td>${premiumCell}</td>
+                            <td>${(r.annualizedReturn * 100).toFixed(2)}%</td>
+                            <td class="wrap-cell">${reasonCell}</td>
+                        </tr>
+                    `;
+                    nearMissBody.innerHTML += row;
+                });
+            } else {
+                nearMissBody.innerHTML = `<tr><td colspan="9" class="text-center text-gray-400 py-6">No close matches found.</td></tr>`;
             }
 
             // --- Render All Parsed Options Table ---
             if (parsedResults.length > 0) {
                 let currentDTE = 0;
                 parsedResults.forEach(r => {
-                    // This is the correct place to add the header
                     if (r.dte !== currentDTE) {
                         currentDTE = r.dte;
-                        allBody.innerHTML += `<tr class="header-row ${r.rule_DTE_Met ? 'pass' : 'fail'}"><td colspan="10">Expiring in ${currentDTE} days (${r.rule_DTE_Met ? 'Matches Rule' : 'Does Not Match Rule'})</td></tr>`;
+                        allBody.innerHTML += `<tr class="header-row ${r.rule_DTE_Met ? 'pass' : 'fail'}"><td colspan="12">Expiring in ${currentDTE} days - ${r.expDate} (${r.rule_DTE_Met ? 'Matches Rule' : 'Does Not Match Rule'})</td></tr>`;
                     }
-                    
+
                     const dteCell = r.rule_DTE_Met ? passBg(r.dte) : failBg(r.dte);
                     const deltaCell = r.rule_Delta ? passBg(r.delta.toFixed(3)) : failBg(r.delta.toFixed(3));
                     const otmCell = r.rule_OTM ? passBg((r.otmPercent * 100).toFixed(2) + '%') : failBg((r.otmPercent * 100).toFixed(2) + '%');
                     const premiumCell = r.rule_Premium ? passBg((r.premiumReturn * 100).toFixed(2) + '%') : failBg((r.premiumReturn * 100).toFixed(2) + '%');
-                    const annualizedCell = (r.annualizedReturn * 100).toFixed(2) + '%'; // --- NEW
-                    
-                    const rowClass = r.isIdeal ? 'bg-green-900/50' : '';
-                    const totalPremium = (maxContracts * r.bid * 100); 
-                    const reasonCell = getFailureReasons(r); // --- NEW
+                    const annualizedCell = (r.annualizedReturn * 100).toFixed(2) + '%';
+
+                    const rowClass = r.isIdeal ? 'bg-green-900/50' : (r.isNearMiss ? 'bg-yellow-900/20' : ''); // Highlight near misses slightly
+                    const totalPremium = (maxContracts * r.bid * 100);
+                    const reasonCell = getFailureReasons(r);
 
                     const row = `
                         <tr class="data-row ${rowClass}">
                             <td class="font-medium">${r.strike.toFixed(2)}</td>
                             <td>${dteCell}</td>
                             <td>${r.bid.toFixed(2)}</td>
+                            <td class="text-gray-300 font-mono">${r.breakeven.toFixed(2)}</td> <!-- NEW -->
                             <td>${deltaCell}</td>
+                            <td>${r.iv.toFixed(2)}%</td>
                             <td>${otmCell}</td>
                             <td>${premiumCell}</td>
                             <td>${annualizedCell}</td>
@@ -507,15 +875,10 @@
                     allBody.innerHTML += row;
                 });
             } else {
-                allBody.innerHTML = `<tr><td colspan="10" class="text-center text-gray-400 py-6">Could not parse any valid option data. Check your pasted text.</td></tr>`;
+                allBody.innerHTML = `<tr><td colspan="12" class="text-center text-gray-400 py-6">Could not parse any valid option data. Check your pasted text.</td></tr>`;
             }
         }
     </script>
 </body>
+
 </html>
-
-
-
-
-
-
